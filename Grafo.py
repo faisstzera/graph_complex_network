@@ -484,6 +484,32 @@ class Grafo:
                 maiores_valores.append((vertice, centralidade))
         return maiores_valores
 
+  def plotar_top_10_centralidade(self, top_10=None):
+        if top_10 is None:
+            top_10 = self.top_10_centralidade_proximidade()
+        
+        # Extrair nomes e centralidades
+        nomes = [x[0] for x in top_10]
+        centralidades = [x[1] for x in top_10]
+        
+        # Criar o gráfico de barras invertido
+        plt.figure(figsize=(8, 10))  # Ajuste o tamanho conforme necessário
+        bars = plt.bar(nomes, centralidades, color='skyblue')
+        
+        # Ajustar o layout e rótulos
+        plt.ylabel('Centralidade de Proximidade')
+        plt.title('Top 10 Centralidade de Proximidade')
+        plt.xticks(rotation=90)  # Rotacionar os nomes dos vértices para melhor visualização
+        
+        
+        # Adicionar rótulos individuais para cada barra
+        for bar in bars:
+            plt.text(bar.get_x() + bar.get_width() / 2, bar.get_height(), round(bar.get_height(), 2), 
+                     ha='center', va='bottom', fontsize=8)
+        
+        plt.tight_layout()  # Ajustar layout para evitar cortes de rótulos
+        plt.show()
+
 
 
 
