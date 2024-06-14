@@ -507,11 +507,9 @@ class Grafo:
                 alcancaveis += 1
 
         if alcancaveis > 0:
-            #media_distancias = soma_distancias / alcancaveis
-            if self.direcionado:
-                return (alcancaveis-1) / soma_distancias
-            else:
-                return 0
+            return (alcancaveis-1) / soma_distancias
+        else:
+            return 0
 
   def top_10_centralidade_proximidade(self):
         centralidades = {}
