@@ -507,7 +507,15 @@ class Grafo:
                 alcancaveis += 1
 
         if alcancaveis > 0:
-            return (alcancaveis-1) / soma_distancias
+            if self.direcionado:
+                N = len(distancias)
+                soma_inversa_distancias = 0
+                for dist in distancias.values():
+                    if dist != np.inf and dist != 0:
+                        soma_inversa_distancias += 1 / dist
+                return soma_inversa_distancias / (N - 1)
+            else:
+                return (alcancaveis-1) / soma_distancias
         else:
             return 0
 
