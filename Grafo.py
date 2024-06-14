@@ -448,6 +448,41 @@ class Grafo:
 
       return mst_edges
 
+  # ----------------------------------------------------------------------------------------------------------
+
+# EXERCÍCIO NÚMERO 7
+  def centralidade_proximidade(self, vertice):
+        distancias, _ = self.bfs_distancias(vertice)
+        soma_distancias = 0
+        alcancaveis = 0
+
+        for dist in distancias.values():
+            if dist != np.inf and dist != 0:
+                soma_distancias += dist
+                alcancaveis += 1
+
+        if alcancaveis > 0:
+            #media_distancias = soma_distancias / alcancaveis
+            if self.direcionado:
+                return (alcancaveis-1) / soma_distancias
+            else:
+                return 0
+
+  def top_10_centralidade_proximidade(self):
+        centralidades = {}
+        maiores_valores = []
+        for vertice in self.lista_adjacencia.keys():
+            centralidade = self.centralidade_proximidade(vertice)
+            centralidades[vertice] = centralidade
+        for vertice, centralidade in centralidades.items():
+          if len(maiores_valores) < 10:
+            maiores_valores.append((vertice, centralidade))
+          else:
+            menor_valor = min(maiores_valores, key=lambda x: x[1])
+            if centralidade > menor_valor[1]:
+                maiores_valores.remove(menor_valor)
+                maiores_valores.append((vertice, centralidade))
+        return maiores_valores
 
 
 
