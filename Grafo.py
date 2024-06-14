@@ -1,5 +1,6 @@
 import numpy as np
 import json
+import matplotlib.pyplot as mtplot
 
 class Grafo:
   def __init__(self, direcionado:bool, ponderado: bool):
@@ -448,7 +449,51 @@ class Grafo:
 
       return mst_edges
 
-  # ----------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------
+      
+# EXERCÍCIO NÚMERO 4
+
+  def centralidade_grau(self):
+    centralidade = {}
+
+    # usar para não ficar uma grande quantia de tempo
+    # vertices = list(self.lista_adjacencia.keys())[:1000]
+    # for vertice in vertices:
+      
+    for vertice in self.lista_adjacencia:
+        if self.direcionado:
+            grau_entrada = self.grau_entrada(vertice)
+            grau_saida = self.grau_saida(vertice)
+            centralidade[vertice] = grau_saida + grau_entrada
+        else:
+            centralidade[vertice] = self.grau(vertice)
+
+    return centralidade
+
+  def plot_histograma_graus(self, maxNum):
+    graus = [self.grau(vertice) for idx, vertice in enumerate(self.lista_adjacencia) if idx < maxNum]
+    mtplot.hist(graus, bins=range(min(graus), max(graus) + 4), edgecolor='black', align='left', color='red')
+    mtplot.title('Distribuição de Graus dos Vértices')
+    mtplot.xlabel('Grau')
+    mtplot.ylabel('Número de Vértices')
+    mtplot.show()
+    
+# EXERCÍCIO NÚMERO 5
+  def plot_top_10_centralidade_grau(self):
+    centralidade = self.centralidade_grau()
+    
+    # x[1] pois queremos o valor e não a key, [:10] pega os 10 primeiros pois está em ordem decrescente
+    top_10 = sorted(centralidade.items(), key=lambda x: x[1], reverse=True)[:10]
+    vertices, graus = zip(*top_10)
+
+    mtplot.figure(figsize=(10, 6))
+    mtplot.bar(vertices, graus, color='red')
+    mtplot.title('Top-10 Vértices por Centralidade de Grau')
+    mtplot.xlabel('Vértices')
+    mtplot.ylabel('Centralidade de Grau')
+    mtplot.show()
+    
+# ----------------------------------------------------------------------------------------------------------
 
 # EXERCÍCIO NÚMERO 7
   def centralidade_proximidade(self, vertice):
