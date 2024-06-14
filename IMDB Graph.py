@@ -73,3 +73,13 @@ grafo_atores.salva_componentes_em_arquivo("componentes_conectados_atores.txt", c
 minimum_spanning_tree = grafo_atores_diretores.prim_algorithm("Tom Hanks")
 
 print("Árvore geradora mínima:", minimum_spanning_tree)
+
+# ----------------------------------------------------------------------------------------
+# Exercício 4: Função que calcula a Centralidade de Grau e gerar gráficos de histograma com a distribuição de graus dos vértices de cada grafo
+grafo_atores_diretores.plot_histograma_graus(50)
+grafo_atores.plot_histograma_graus(50)
+
+# ----------------------------------------------------------------------------------------
+# Exercício 5: Maiores valores de Degree Centrality
+grafo_atores_diretores.plot_top_10_centralidade_grau()
+grafo_atores.plot_top_10_centralidade_grau()
