@@ -83,3 +83,16 @@ grafo_atores.plot_histograma_graus(50)
 # Exercício 5: Maiores valores de Degree Centrality
 grafo_atores_diretores.plot_top_10_centralidade_grau()
 grafo_atores.plot_top_10_centralidade_grau()
+
+# ----------------------------------------------------------------------------------------
+# Exercício 6
+grafo_atores_diretores.plot_top_10_centralidade_intermediacao()
+grafo_atores.plot_top_10_centralidade_intermediacao()
+
+# ----------------------------------------------------------------------------------------
+# Exercício 7: Centralidade por proximidade
+grafo_atores.top_10_centralidade_proximidade()
+grafo_atores.plotar_top_10_centralidade()
+top_10 = grafo_atores_diretores.top_10_centralidade_diretores()
+grafo_atores_diretores.plotar_top_10_centralidade(top_10)
+
