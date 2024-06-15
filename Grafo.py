@@ -492,6 +492,52 @@ class Grafo:
     mtplot.xlabel('Vértices')
     mtplot.ylabel('Centralidade de Grau')
     mtplot.show()
+
+
+# ----------------------------------------------------------------------------------------------------------
+
+# EXERCÍCIO NÚMERO 6
+  
+  def centralidade_intermediacao(self):
+    centralidade = dict.fromkeys(self.lista_adjacencia.keys(), 0.0)
+    for s in self.lista_adjacencia:
+        pilha = []
+        predecessores = {w: [] for w in self.lista_adjacencia}
+        sigma = dict.fromkeys(self.lista_adjacencia, 0.0)
+        sigma[s] = 1.0
+        distancia = dict.fromkeys(self.lista_adjacencia, -1)
+        distancia[s] = 0
+        fila = [s]
+        while fila:
+            v = fila.pop(0)
+            pilha.append(v)
+            for w, peso in self.lista_adjacencia[v]:
+                if distancia[w] < 0:
+                    fila.append(w)
+                    distancia[w] = distancia[v] + 1
+                if distancia[w] == distancia[v] + 1:
+                    sigma[w] += sigma[v]
+                    predecessores[w].append(v)
+        delta = dict.fromkeys(self.lista_adjacencia, 0)
+        while pilha:
+            w = pilha.pop()
+            for v in predecessores[w]:
+                delta[v] += (sigma[v] / sigma[w]) * (1 + delta[w])
+            if w != s:
+                centralidade[w] += delta[w]
+    return centralidade
+
+  def plot_top_10_centralidade_intermediacao(self):
+          centralidade = self.centralidade_intermediacao()
+          top_10 = sorted(centralidade.items(), key=lambda x: x[1], reverse=True)[:10]
+          vertices, valores = zip(*top_10)
+          mtplot.figure(figsize=(10, 6))
+          mtplot.bar(vertices, valores, color='blue')
+          mtplot.title('Top-10 Vértices por Centralidade de Intermediação')
+          mtplot.xlabel('Vértices')
+          mtplot.ylabel('Centralidade de Intermediação')
+          mtplot.xticks(rotation=45, ha='right')
+          mtplot.show()
     
 # ----------------------------------------------------------------------------------------------------------
 
@@ -586,6 +632,7 @@ class Grafo:
         
   def top_10_centralidade_diretores(self):
         centralidades = {}
+        maiores_valores = []
         for vertice in self.lista_adjacencia.keys():
             if self.tipo_vertice(vertice) == "diretor":
                 centralidade = self.centralidade_proximidade(vertice)
