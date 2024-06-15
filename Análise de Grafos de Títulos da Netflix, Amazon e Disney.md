@@ -9,12 +9,11 @@ Este relatório apresenta uma análise de grafos construída a partir de dados d
 
 #### Grafo de Atores para Diretores
 
-![[Pasted image 20240614215039.png]]
+![Pasted image 20240614215039.png]
 
 #### Grafo de Atores para Atores
 
-![[WhatsApp Image 2024-06-14 at 20.55.41_5d900180.jpg]]
-
+![WhatsApp Image 2024-06-14 at 20.55.41_5d900180.jpg]
 
 **Análise:**
 - Assim como foi estudado na matéria, ambos os gráficos seguem uma distribuição de potência, e não um potência Gaussiana, corroborando com a ideia de que grafos que representam problemas reais tendem a ter uma distribuição de potência
