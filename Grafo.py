@@ -520,21 +520,23 @@ class Grafo:
             return 0
 
   def top_10_centralidade_proximidade(self):
-        centralidades = {}
-        maiores_valores = []
-        for vertice in self.lista_adjacencia.keys():
-            centralidade = self.centralidade_proximidade(vertice)
-            centralidades[vertice] = centralidade
-        for vertice, centralidade in centralidades.items():
-          if len(maiores_valores) < 10:
-            maiores_valores.append((vertice, centralidade))
-          else:
-            menor_valor = min(maiores_valores, key=lambda x: x[1])
-            if centralidade > menor_valor[1]:
-                maiores_valores.remove(menor_valor)
-                maiores_valores.append((vertice, centralidade))
-        return maiores_valores
+    centralidades = {}
+    maiores_valores = []
+    for vertice in self.lista_adjacencia.keys():
+      centralidade = self.centralidade_proximidade(vertice)
+      centralidades[vertice] = centralidade
+    for vertice, centralidade in centralidades.items():
+      if len(maiores_valores) < 10:
+        maiores_valores.append((vertice, centralidade))
+      else:
+        menor_valor = min(maiores_valores, key=lambda x: x[1])
+        if centralidade > menor_valor[1]:
+          maiores_valores.remove(menor_valor)
+          maiores_valores.append((vertice, centralidade))
 
+        maiores_valores = sorted(centralidades.items(), key=lambda x: x[1], reverse=True)[:10]
+        return maiores_valores
+  
   def plotar_top_10_centralidade(self, top_10=None):
         if top_10 is None:
             top_10 = self.top_10_centralidade_proximidade()
@@ -560,6 +562,45 @@ class Grafo:
         
         plt.tight_layout()  # Ajustar layout para evitar cortes de rótulos
         plt.show()
+
+  def tipo_vertice(self, vertice):
+        """
+        Identifica se o vértice é um diretor ou um ator.
+        Retorna "diretor" se o vértice é um diretor,
+        "ator" se é um ator, ou "indefinido" se não é possível determinar.
+        """
+        if self.direcionado:
+            tem_entrada = any(vertice in [adj[0] for adj in self.lista_adjacencia[node]] for node in self.lista_adjacencia)
+            tem_saida = len(self.lista_adjacencia[vertice]) > 0
+
+            if tem_entrada and not tem_saida:
+                return "diretor"
+            elif not tem_entrada and tem_saida:
+                return "ator"
+            elif tem_entrada and tem_saida:
+                return "indefinido"
+            else:
+                return "indefinido"
+        else:
+            return "indefinido"
+        
+  def top_10_centralidade_diretores(self):
+        centralidades = {}
+        for vertice in self.lista_adjacencia.keys():
+            if self.tipo_vertice(vertice) == "diretor":
+                centralidade = self.centralidade_proximidade(vertice)
+                centralidades[vertice] = centralidade
+        for vertice, centralidade in centralidades.items():
+              if len(maiores_valores) < 10:
+                maiores_valores.append((vertice, centralidade))
+              else:
+                menor_valor = min(maiores_valores, key=lambda x: x[1])
+                if centralidade > menor_valor[1]:
+                  maiores_valores.remove(menor_valor)
+                  maiores_valores.append((vertice, centralidade))
+
+                maiores_valores = sorted(centralidades.items(), key=lambda x: x[1], reverse=True)[:10]
+                return maiores_valores
 
 
 
